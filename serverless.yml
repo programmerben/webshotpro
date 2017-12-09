@@ -1,0 +1,35 @@
+service: websnapshotpro
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+
+  stage: v1
+  region: us-west-2
+
+  environment:
+    API_KEY: "5d2240a7"
+    API_SECRET: "6b9d9b15b6b63469da1b73a9ea6af50318252980f8c4ffe92bf172a38e5bf2f84c907dc3c8ed2ac2c4ca341c6e761483cc6978fcdb4d881c59fadcf1a92d5062"
+    SIGNATURE_FIELDS: "url,delay,selector,width,height,thumb_width,thumb_height"
+
+functions:
+  imageSnap:
+    handler: image.snap
+    timeout: 10
+    memorySize: 1024
+
+    events:
+      - http:
+          path: image/snap/{proxy+}
+          method: get
+
+  # For code reference purposes
+  simpleSnap:
+    handler: simple.snap
+    timeout: 10
+    memorySize: 1024
+
+    events:
+      - http:
+          path: simple/snap
+          method: get
